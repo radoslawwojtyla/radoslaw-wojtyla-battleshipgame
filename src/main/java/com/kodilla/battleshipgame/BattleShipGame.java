@@ -10,8 +10,7 @@ import javafx.stage.Stage;
 
 public class BattleShipGame extends Application {
 
-        private Image imageback = new Image("file:resources/imageback_1600x900.png");
-
+        private Image imageback = new Image("file:resources/image_ships.png");
         public static void main(String[] args) {
             launch(args);
         }
@@ -29,11 +28,9 @@ public class BattleShipGame extends Application {
         Scene scene = new Scene(gridPane, 1280, 720, Color.BLACK);
         primaryStage.setScene(scene);
 
-        primaryStage.setResizable(false);
+//        primaryStage.setResizable(false);
 //        primaryStage.setFullScreen(true);
         primaryStage.setTitle("Battle Ship - The Game");
-
         primaryStage.show();
-
     }
 }
