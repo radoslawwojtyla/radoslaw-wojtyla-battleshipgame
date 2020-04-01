@@ -28,53 +28,57 @@ public class Board {
     }
 
     public boolean checkHorizontalCollisions(int x, int y, int shipSize) {
+        boolean result = false;
+        boolean loop = true;
         if (checkHorizontalBoarders(x, shipSize)) {
             int counter = 0;
-            while (sampleBoard[x][y] == 0) {
+            while (sampleBoard[x][y] == 0 && loop == true) {
                 counter++;
                 x++;
                 if (counter == shipSize) {
-                    return true;
+                    loop = false;
+                    result = true;
                 }
             }
-            return false;
         } else if (!checkHorizontalBoarders(x, shipSize)) {
             int counter = 0;
-            while (sampleBoard[x][y] == 0) {
+            while (sampleBoard[x][y] == 0 && loop == true) {
                 counter++;
                 x--;
                 if (counter == shipSize) {
-                    return true;
+                    loop = false;
+                    result = true;
                 }
             }
-            return false;
         }
-        return false;
+        return result;
     }
 
     public boolean checkVerticalCollisions(int x, int y, int shipSize) {
+        boolean result = false;
+        boolean loop = true;
         if (checkVerticalBoarders(y, shipSize)) {
             int counter = 0;
-            while (sampleBoard[x][y] == 0) {
+            while (sampleBoard[x][y] == 0 && loop == true) {
                 counter++;
                 y++;
                 if (counter == shipSize) {
-                    return true;
+                    loop = false;
+                    result = true;
                 }
             }
-            return false;
         } else if (!checkVerticalBoarders(y, shipSize)) {
             int counter = 0;
-            while (sampleBoard[x][y] == 0) {
+            while (sampleBoard[x][y] == 0 && loop == true) {
                 counter++;
                 y--;
                 if (counter == shipSize) {
-                    return true;
+                    loop = false;
+                    result = true;
                 }
             }
-            return false;
         }
-        return false;
+        return result;
     }
 
 
