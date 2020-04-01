@@ -8,8 +8,7 @@ public class Board {
     int y;
     int direction;
     int shipSize;
-
-    int[][] sampleBoard;
+    int[][] sampleBoard = new int[10][];
 
     public boolean checkHorizontalBoarders(int x, int shipSize) {
         if (x + shipSize - 1 < 10) {
@@ -112,12 +111,9 @@ public class Board {
     }
 
     public void initBoard(int[][] sampleBoard) {
-
-        for (int i = 0; i < sampleBoard.length; i++) {
-            for (int j = 0; j < sampleBoard[i].length; j++) {
-                sampleBoard[i][j] = 0;
+        for (int i = 0; i < 10; i++) {
+            sampleBoard[0] = new int[10];
             }
-        }
         shipDrawing(sampleBoard, 4);
         shipDrawing(sampleBoard, 3);
         shipDrawing(sampleBoard, 3);
