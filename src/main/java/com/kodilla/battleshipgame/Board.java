@@ -1,5 +1,4 @@
 package com.kodilla.battleshipgame;
-
 import java.util.Random;
 
 public class Board {
@@ -7,123 +6,143 @@ public class Board {
     int x;
     int y;
     int direction;
-    int shipSize;
     int[][] sampleBoard = new int[10][];
 
-    public boolean checkHorizontalBoarders(int x, int shipSize) {
-        if (x + shipSize - 1 < 10) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean checkVerticalBoarders(int y, int shipSize) {
+    public String checkHorizontalBoarders(int y, int shipSize) {
         if (y + shipSize - 1 < 10) {
-            return true;
+            return "right";
         } else {
-            return false;
+            return "left";
         }
     }
 
-    public boolean checkHorizontalCollisions(int x, int y, int shipSize) {
-        boolean result = false;
-        boolean loop = true;
-        if (checkHorizontalBoarders(x, shipSize)) {
-            int counter = 0;
-            while (sampleBoard[x][y] == 0 && loop == true) {
-                counter++;
-                x++;
-                if (counter == shipSize) {
-                    loop = false;
-                    result = true;
-                }
-            }
-        } else if (!checkHorizontalBoarders(x, shipSize)) {
-            int counter = 0;
-            while (sampleBoard[x][y] == 0 && loop == true) {
-                counter++;
-                x--;
-                if (counter == shipSize) {
-                    loop = false;
-                    result = true;
-                }
-            }
+    public String checkVerticalBoarders(int x, int shipSize) {
+        if (x + shipSize - 1 < 10) {
+            return "down";
+        } else {
+            return "up";
         }
-        return result;
     }
 
-    public boolean checkVerticalCollisions(int x, int y, int shipSize) {
-        boolean result = false;
+    public String checkHorizontalCollisions(int x, int y, int shipSize) {
+        String result = "impossible";
         boolean loop = true;
-        if (checkVerticalBoarders(y, shipSize)) {
-            int counter = 0;
+        if (checkHorizontalBoarders(y, shipSize) == "right") {
+            int counter = 1;
             while (sampleBoard[x][y] == 0 && loop == true) {
                 counter++;
                 y++;
                 if (counter == shipSize) {
                     loop = false;
-                    result = true;
+                    result = "right";
                 }
             }
-        } else if (!checkVerticalBoarders(y, shipSize)) {
-            int counter = 0;
+        } else if (checkHorizontalBoarders(y, shipSize) == "left") {
+            int counter = 1;
             while (sampleBoard[x][y] == 0 && loop == true) {
                 counter++;
                 y--;
                 if (counter == shipSize) {
                     loop = false;
-                    result = true;
+                    result = "left";
                 }
             }
         }
         return result;
     }
 
+    public String checkVerticalCollisions(int x, int y, int shipSize) {
+        String result = "impossible";
+        boolean loop = true;
+        if (checkVerticalBoarders(x, shipSize) == "down") {
+            int counter = 1;
+            while (sampleBoard[x][y] == 0 && loop == true) {
+                counter++;
+                x++;
+                if (counter == shipSize) {
+                    loop = false;
+                    result = "down";
+                }
+            }
+        } else if (checkVerticalBoarders(x, shipSize) == "up") {
+            int counter = 1;
+            while (sampleBoard[x][y] == 0 && loop == true) {
+                counter++;
+                x--;
+                if (counter == shipSize) {
+                    loop = false;
+                    result = "up";
+                }
+            }
+        }
+        return result;
+    }
+
+    public boolean firstPointCheck(int x, int y) {
+        if (sampleBoard[x][y] == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public void shipDrawing(int[][] sampleBoard, int shipSize) {
         Random random = new Random();
-        x = random.nextInt(10);
-        y = random.nextInt(10);
-        direction = random.nextInt(2);          // 0 -> pion, 1 -> poziom
+
+        direction = random.nextInt(2);          // 0 -> horizontal, 1 -> vertical
 
         if (direction == 0) {
-            if (checkHorizontalCollisions(x, y, shipSize)) {
-                for (int i = 0; i < shipSize; i++) {
-                    sampleBoard[x + i][y] = shipSize;
+            boolean loop = true;
+            while (loop) {
+                x = random.nextInt(10);
+                y = random.nextInt(10);
+                if (firstPointCheck(x,y) == true && checkHorizontalCollisions(x,y,shipSize) != "impossible") {
+                    loop = false;
                 }
-            } else {
+            }
+            if (checkHorizontalCollisions(x, y, shipSize) == "right") {
                 for (int i = 0; i < shipSize; i++) {
-                    sampleBoard[x - i][y] = shipSize;
+                    sampleBoard[x][y+i] = shipSize;
+                }
+            } else if (checkHorizontalCollisions(x,y,shipSize) == "left"){
+                for (int i = 0; i < shipSize; i++) {
+                    sampleBoard[x][y-i] = shipSize;
                 }
             }
         } else if (direction == 1) {
-            if (checkVerticalCollisions(x, y, shipSize)) {
-                for (int i = 0; i < shipSize; i++) {
-                    sampleBoard[x][y + i] = shipSize;
+            boolean loop = true;
+            while (loop) {
+                x = random.nextInt(10);
+                y = random.nextInt(10);
+                if (firstPointCheck(x,y) == true && checkVerticalCollisions(x,y,shipSize) != "impossible") {
+                    loop = false;
                 }
-            } else {
+            }
+            if (checkVerticalCollisions(x, y, shipSize) == "down") {
                 for (int i = 0; i < shipSize; i++) {
-                    sampleBoard[x][y - i] = shipSize;
+                    sampleBoard[x+i][y] = shipSize;
+                }
+            } else if (checkVerticalCollisions(x,y,shipSize) == "up"){
+                for (int i = 0; i < shipSize; i++) {
+                    sampleBoard[x-i][y] = shipSize;
                 }
             }
         }
     }
 
-    public void initBoard(int[][] sampleBoard) {
+    public void initBoard() {
         for (int i = 0; i < 10; i++) {
-            sampleBoard[0] = new int[10];
-            }
+            sampleBoard[i] = new int[10];
+        }
+        shipDrawing(sampleBoard, 6);
+        shipDrawing(sampleBoard, 5);
         shipDrawing(sampleBoard, 4);
         shipDrawing(sampleBoard, 3);
         shipDrawing(sampleBoard, 3);
-        shipDrawing(sampleBoard, 2);
-        shipDrawing(sampleBoard, 2);
-        shipDrawing(sampleBoard, 2);
     }
 
 
-    public static void printBoard(int[][] sampleBoard) {
+    public void printBoard() {
         for (int i = 0; i < sampleBoard.length; i++) {
             for (int j = 0; j < sampleBoard[i].length; j++) {
                 System.out.print(sampleBoard[i][j] + " ");
