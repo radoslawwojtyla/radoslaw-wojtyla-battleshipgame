@@ -6,7 +6,9 @@ public class GameMain {
 
         board.initBoard();
 
-        board.shooting();
+        board.shootingByUser();
+
+        board.shootingByEnemy();
 
         board.printBoard();
     }
