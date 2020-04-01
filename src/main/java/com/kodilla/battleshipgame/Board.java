@@ -82,58 +82,57 @@ public class Board {
     }
 
 
+    public void shipDrawing(int[][] sampleBoard, int shipSize) {
+        Random random = new Random();
+        x = random.nextInt(10);
+        y = random.nextInt(10);
+        direction = random.nextInt(2);          // 0 -> pion, 1 -> poziom
 
-        public void shipDrawing ( int[][] sampleBoard, int shipSize){
-            Random random = new Random();
-            x = random.nextInt(10);
-            y = random.nextInt(10);
-            direction = random.nextInt(2);          // 0 -> pion, 1 -> poziom
-
-            if (direction == 0) {
-                if (checkHorizontalCollisions(x,y,shipSize)) {
-                    for (int i = 0; i < shipSize; i++) {
-                        sampleBoard[x + i][y] = shipSize;
-                    }
-                } else {
-                    for (int i = 0; i < shipSize; i++) {
-                        sampleBoard[x - i][y] = shipSize;
-                    }
+        if (direction == 0) {
+            if (checkHorizontalCollisions(x, y, shipSize)) {
+                for (int i = 0; i < shipSize; i++) {
+                    sampleBoard[x + i][y] = shipSize;
                 }
-            } else if (direction == 1) {
-                if (checkVerticalCollisions(x,y,shipSize)) {
-                    for (int i = 0; i < shipSize; i++) {
-                        sampleBoard[x][y + i] = shipSize;
-                    }
-                } else {
-                    for (int i = 0; i < shipSize; i++) {
-                        sampleBoard[x][y - i] = shipSize;
-                    }
+            } else {
+                for (int i = 0; i < shipSize; i++) {
+                    sampleBoard[x - i][y] = shipSize;
                 }
             }
-        }
-
-        public void initBoard ( int[][] sampleBoard){
-
-            for (int i = 0; i < sampleBoard.length; i++) {
-                for (int j = 0; j < sampleBoard[i].length; j++) {
-                    sampleBoard[i][j] = 0;
+        } else if (direction == 1) {
+            if (checkVerticalCollisions(x, y, shipSize)) {
+                for (int i = 0; i < shipSize; i++) {
+                    sampleBoard[x][y + i] = shipSize;
                 }
-            }
-            shipDrawing(sampleBoard, 4);
-            shipDrawing(sampleBoard, 3);
-            shipDrawing(sampleBoard, 3);
-            shipDrawing(sampleBoard, 2);
-            shipDrawing(sampleBoard, 2);
-            shipDrawing(sampleBoard, 2);
-        }
-
-
-        public static void printBoard ( int[][] sampleBoard){
-            for (int i = 0; i < sampleBoard.length; i++) {
-                for (int j = 0; j < sampleBoard[i].length; j++) {
-                    System.out.print(sampleBoard[i][j] + " ");
+            } else {
+                for (int i = 0; i < shipSize; i++) {
+                    sampleBoard[x][y - i] = shipSize;
                 }
-                System.out.println();
             }
         }
     }
+
+    public void initBoard(int[][] sampleBoard) {
+
+        for (int i = 0; i < sampleBoard.length; i++) {
+            for (int j = 0; j < sampleBoard[i].length; j++) {
+                sampleBoard[i][j] = 0;
+            }
+        }
+        shipDrawing(sampleBoard, 4);
+        shipDrawing(sampleBoard, 3);
+        shipDrawing(sampleBoard, 3);
+        shipDrawing(sampleBoard, 2);
+        shipDrawing(sampleBoard, 2);
+        shipDrawing(sampleBoard, 2);
+    }
+
+
+    public static void printBoard(int[][] sampleBoard) {
+        for (int i = 0; i < sampleBoard.length; i++) {
+            for (int j = 0; j < sampleBoard[i].length; j++) {
+                System.out.print(sampleBoard[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
