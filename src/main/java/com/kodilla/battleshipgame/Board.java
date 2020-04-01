@@ -27,79 +27,56 @@ public class Board {
         }
     }
 
-    boolean collision;
-
-    public boolean checkHorizontalCollisions(int x, int y, int shipSize, boolean collision) {
+    public boolean checkHorizontalCollisions(int x, int y, int shipSize) {
         if (checkHorizontalBoarders(x, shipSize)) {
-            boolean start = true;
             int counter = 0;
-            while (sampleBoard[x][y] == 0 && start == true) {
+            while (sampleBoard[x][y] == 0) {
                 counter++;
                 x++;
-                if (sampleBoard[x][y] != 0) {
-                    start = false;
-                    collision = false;
-                } else if (counter == shipSize) {
-                    start = false;
-                    collision = true;
+                if (counter == shipSize) {
+                    return true;
                 }
             }
-            return collision;
+            return false;
         } else if (!checkHorizontalBoarders(x, shipSize)) {
-            boolean start = true;
             int counter = 0;
-            while (sampleBoard[x][y] == 0 && start == true) {
+            while (sampleBoard[x][y] == 0) {
                 counter++;
                 x--;
-                if (sampleBoard[x][y] != 0) {
-                    start = false;
-                    collision = false;
-                } else if (counter == shipSize) {
-                    start = false;
-                    collision = true;
+                if (counter == shipSize) {
+                    return true;
                 }
             }
-            return collision;
-        } else {
             return false;
         }
+        return false;
     }
 
-    public boolean checkVerticalCollisions(int x, int y, int shipSize, boolean collision) {
+    public boolean checkVerticalCollisions(int x, int y, int shipSize) {
         if (checkVerticalBoarders(y, shipSize)) {
-            boolean start = true;
             int counter = 0;
-            while (sampleBoard[x][y] == 0 && start == true) {
+            while (sampleBoard[x][y] == 0) {
                 counter++;
                 y++;
-                if (sampleBoard[x][y] != 0) {
-                    start = false;
-                    collision = false;
-                } else if (counter == shipSize) {
-                    start = false;
-                    collision = true;
+                if (counter == shipSize) {
+                    return true;
                 }
             }
-            return collision;
+            return false;
         } else if (!checkVerticalBoarders(y, shipSize)) {
-            boolean start = true;
             int counter = 0;
-            while (sampleBoard[x][y] == 0 && start == true) {
+            while (sampleBoard[x][y] == 0) {
                 counter++;
                 y--;
-                if (sampleBoard[x][y] != 0) {
-                    start = false;
-                    collision = false;
-                } else if (counter == shipSize) {
-                    start = false;
-                    collision = true;
+                if (counter == shipSize) {
+                    return true;
                 }
             }
-            return collision;
-        } else {
             return false;
         }
+        return false;
     }
+
 
 
         public void shipDrawing ( int[][] sampleBoard, int shipSize){
@@ -109,7 +86,7 @@ public class Board {
             direction = random.nextInt(2);          // 0 -> pion, 1 -> poziom
 
             if (direction == 0) {
-                if (checkHorizontalCollisions(x,y,shipSize, collision)) {
+                if (checkHorizontalCollisions(x,y,shipSize)) {
                     for (int i = 0; i < shipSize; i++) {
                         sampleBoard[x + i][y] = shipSize;
                     }
@@ -119,7 +96,7 @@ public class Board {
                     }
                 }
             } else if (direction == 1) {
-                if (checkVerticalCollisions(x,y,shipSize, collision)) {
+                if (checkVerticalCollisions(x,y,shipSize)) {
                     for (int i = 0; i < shipSize; i++) {
                         sampleBoard[x][y + i] = shipSize;
                     }
