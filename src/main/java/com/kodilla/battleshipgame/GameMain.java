@@ -5,6 +5,9 @@ public class GameMain {
         Board board = new Board();
 
         board.initBoard();
+
+        board.shooting();
+
         board.printBoard();
     }
 }

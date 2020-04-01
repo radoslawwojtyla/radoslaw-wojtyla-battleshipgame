@@ -1,5 +1,7 @@
 package com.kodilla.battleshipgame;
+
 import java.util.Random;
+import java.util.Scanner;
 
 public class Board {
 
@@ -96,17 +98,17 @@ public class Board {
             while (loop) {
                 x = random.nextInt(10);
                 y = random.nextInt(10);
-                if (firstPointCheck(x,y) == true && checkHorizontalCollisions(x,y,shipSize) != "impossible") {
+                if (firstPointCheck(x, y) == true && checkHorizontalCollisions(x, y, shipSize) != "impossible") {
                     loop = false;
                 }
             }
             if (checkHorizontalCollisions(x, y, shipSize) == "right") {
                 for (int i = 0; i < shipSize; i++) {
-                    sampleBoard[x][y+i] = shipSize;
+                    sampleBoard[x][y + i] = shipSize;
                 }
-            } else if (checkHorizontalCollisions(x,y,shipSize) == "left"){
+            } else if (checkHorizontalCollisions(x, y, shipSize) == "left") {
                 for (int i = 0; i < shipSize; i++) {
-                    sampleBoard[x][y-i] = shipSize;
+                    sampleBoard[x][y - i] = shipSize;
                 }
             }
         } else if (direction == 1) {
@@ -114,17 +116,17 @@ public class Board {
             while (loop) {
                 x = random.nextInt(10);
                 y = random.nextInt(10);
-                if (firstPointCheck(x,y) == true && checkVerticalCollisions(x,y,shipSize) != "impossible") {
+                if (firstPointCheck(x, y) == true && checkVerticalCollisions(x, y, shipSize) != "impossible") {
                     loop = false;
                 }
             }
             if (checkVerticalCollisions(x, y, shipSize) == "down") {
                 for (int i = 0; i < shipSize; i++) {
-                    sampleBoard[x+i][y] = shipSize;
+                    sampleBoard[x + i][y] = shipSize;
                 }
-            } else if (checkVerticalCollisions(x,y,shipSize) == "up"){
+            } else if (checkVerticalCollisions(x, y, shipSize) == "up") {
                 for (int i = 0; i < shipSize; i++) {
-                    sampleBoard[x-i][y] = shipSize;
+                    sampleBoard[x - i][y] = shipSize;
                 }
             }
         }
@@ -148,6 +150,27 @@ public class Board {
                 System.out.print(sampleBoard[i][j] + " ");
             }
             System.out.println();
+        }
+    }
+
+    public void shooting() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj X:");
+        int x = scanner.nextInt()-1;
+        System.out.println("Podaj Y:");
+        int y = scanner.nextInt()-1;
+        int shot = sampleBoard[x][y];
+        if (x < 1 || x > 10 || y < 1 || y > 10) {
+// OBSLUGA WYJATKU
+        }
+        if (shot > 9) {
+            System.out.println("To miejsce było już ostrzelane");
+        } else if (shot == 0) {
+            System.out.println("Pudło");
+            sampleBoard[x][y] = shot + 10;
+        } else if (shot != 0) {
+            System.out.println("Trafienie");
+            sampleBoard[x][y] = shot + 10;
         }
     }
 }
