@@ -2,14 +2,20 @@ package com.kodilla.battleshipgame;
 
 public class GameMain {
     public static void main(String[] args) {
-        Board board = new Board();
+        Board userBoard = new Board();
+        Board enemyBoard = new Board();
 
-        board.initBoard();
+        userBoard.initBoard();
+        enemyBoard.initBoard();
 
-        board.shootingByUser();
+        enemyBoard.shootingByUser();
+        enemyBoard.printBoard();
 
-        board.shootingByEnemy();
+        System.out.println();
 
-        board.printBoard();
+        userBoard.shootingByEnemy();
+        userBoard.printBoard();
+
+
     }
 }
