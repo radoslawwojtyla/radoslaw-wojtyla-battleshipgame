@@ -26,9 +26,9 @@ public class Board {
     public String checkHorizontalCollisions(int x, int y, int shipSize) {
         String result = "impossible";
         boolean loop = true;
-        if (checkHorizontalBoarders(y, shipSize) == "right") {
-            int counter = 1;
-            while (sampleBoard[x][y] == 0 && loop == true) {
+        int counter = 1;
+        if (checkHorizontalBoarders(y, shipSize).equals("right")) {
+             while (sampleBoard[x][y] == 0 && loop) {
                 counter++;
                 y++;
                 if (counter == shipSize) {
@@ -36,9 +36,8 @@ public class Board {
                     result = "right";
                 }
             }
-        } else if (checkHorizontalBoarders(y, shipSize) == "left") {
-            int counter = 1;
-            while (sampleBoard[x][y] == 0 && loop == true) {
+        } else if (checkHorizontalBoarders(y, shipSize).equals("left")) {
+             while (sampleBoard[x][y] == 0 && loop) {
                 counter++;
                 y--;
                 if (counter == shipSize) {
@@ -53,9 +52,9 @@ public class Board {
     public String checkVerticalCollisions(int x, int y, int shipSize) {
         String result = "impossible";
         boolean loop = true;
-        if (checkVerticalBoarders(x, shipSize) == "down") {
-            int counter = 1;
-            while (sampleBoard[x][y] == 0 && loop == true) {
+        int counter = 1;
+        if (checkVerticalBoarders(x, shipSize).equals("down")) {
+            while (sampleBoard[x][y] == 0 && loop) {
                 counter++;
                 x++;
                 if (counter == shipSize) {
@@ -63,9 +62,8 @@ public class Board {
                     result = "down";
                 }
             }
-        } else if (checkVerticalBoarders(x, shipSize) == "up") {
-            int counter = 1;
-            while (sampleBoard[x][y] == 0 && loop == true) {
+        } else if (checkVerticalBoarders(x, shipSize).equals("up")) {
+            while (sampleBoard[x][y] == 0 && loop) {
                 counter++;
                 x--;
                 if (counter == shipSize) {
@@ -134,6 +132,8 @@ public class Board {
         placeShipRandomly( 4);
         placeShipRandomly( 3);
         placeShipRandomly( 3);
+        placeShipRandomly( 2);
+        placeShipRandomly( 2);
     }
 
 
@@ -146,45 +146,7 @@ public class Board {
         }
     }
 
-    public void shootingByUser() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Podaj X:");
-        int x = scanner.nextInt() - 1;
-        System.out.println("Podaj Y:");
-        int y = scanner.nextInt() - 1;
-        int shot = sampleBoard[x][y];
-        if (x < 1 || x > 10 || y < 1 || y > 10) {
-// OBSLUGA WYJATKU
-        }
-        if (shot > 9) {
-            System.out.println("To miejsce było już ostrzelane");
-        } else if (shot == 0) {
-            System.out.println("Pudło");
-            sampleBoard[x][y] = shot + 10;
-        } else if (shot != 0) {
-            System.out.println("Trafienie");
-            sampleBoard[x][y] = shot + 10;
-        }
-    }
 
-    public void shootingByEnemy() {
-        Random random = new Random();
-        boolean loop = true;
-        while (loop) {
-            int x = random.nextInt(10);
-            int y = random.nextInt(10);
-            int shot = sampleBoard[x][y];
-            if (shot == 0) {
-                loop = false;
-                System.out.println("Pudło");
-                sampleBoard[x][y] = shot + 10;
-            } else if (shot > 0 && shot < 9) {
-                loop = false;
-                System.out.println("Trafienie");
-                sampleBoard[x][y] = shot + 10;
-            }
-        }
-    }
 
     public void checkEndGame(){}
 }
