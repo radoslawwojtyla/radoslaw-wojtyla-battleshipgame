@@ -28,26 +28,26 @@ public class Board {
         boolean loop = true;
         int counter = 1;
         if (checkHorizontalBoarders(y, shipSize).equals("right")) {
-             while (sampleBoard[x][y] == 0 && loop) {
+            while (sampleBoard[x][y] == 0 && loop) {
                 counter++;
-                y++;
-                if (counter == shipSize) {
+                if (counter == shipSize+1) {
                     loop = false;
                     result = "right";
-                }
+                } else { y++; }
             }
         } else if (checkHorizontalBoarders(y, shipSize).equals("left")) {
-             while (sampleBoard[x][y] == 0 && loop) {
+            while (sampleBoard[x][y] == 0 && loop) {
                 counter++;
-                y--;
-                if (counter == shipSize) {
+
+                if (counter == shipSize+1) {
                     loop = false;
                     result = "left";
-                }
+                } else {                y--;}
             }
         }
         return result;
     }
+
 
     public String checkVerticalCollisions(int x, int y, int shipSize) {
         String result = "impossible";
@@ -56,20 +56,20 @@ public class Board {
         if (checkVerticalBoarders(x, shipSize).equals("down")) {
             while (sampleBoard[x][y] == 0 && loop) {
                 counter++;
-                x++;
-                if (counter == shipSize) {
+
+                if (counter == shipSize +1) {
                     loop = false;
                     result = "down";
-                }
+                } else {x++;}
             }
         } else if (checkVerticalBoarders(x, shipSize).equals("up")) {
             while (sampleBoard[x][y] == 0 && loop) {
                 counter++;
-                x--;
-                if (counter == shipSize) {
+
+                if (counter == shipSize+1) {
                     loop = false;
                     result = "up";
-                }
+                } else {                x--;}
             }
         }
         return result;
@@ -129,6 +129,8 @@ public class Board {
     public void initBoard() {
         placeShipRandomly(6);
         placeShipRandomly( 5);
+        placeShipRandomly( 5);
+        placeShipRandomly( 4);
         placeShipRandomly( 4);
         placeShipRandomly( 3);
         placeShipRandomly( 3);
@@ -147,6 +149,6 @@ public class Board {
     }
 
 
-
-    public void checkEndGame(){}
+    public void checkEndGame() {
+    }
 }

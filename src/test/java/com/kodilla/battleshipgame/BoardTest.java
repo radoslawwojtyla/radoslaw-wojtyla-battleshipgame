@@ -35,10 +35,17 @@ public class BoardTest {
         //Given
         Board board = new Board();
         board.placeShip(6, "down", 0,4);
+        board.placeShip(6, "down", 0,6);
 
-        String result1 = board.checkHorizontalCollisions(1,2,3);
+        String result1 = board.checkHorizontalCollisions(0,2,3);
+        String result2 = board.checkHorizontalCollisions(0,1,3);
+        String result3 = board.checkHorizontalCollisions(0,8,3);
+        String result4 = board.checkHorizontalCollisions(0,9,3);
 
         Assert.assertEquals("impossible", result1);
+        Assert.assertEquals("right", result2);
+        Assert.assertEquals("impossible", result3);
+        Assert.assertEquals("left", result4);
 
 
     }
