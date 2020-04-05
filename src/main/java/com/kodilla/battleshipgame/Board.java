@@ -27,22 +27,26 @@ public class Board {
         String result = "impossible";
         boolean loop = true;
         int counter = 1;
-        if (checkHorizontalBoarders(y, shipSize).equals("right")) {
+        if (checkHorizontalBoarders(y, shipSize).equals("right") && !hasShipNeighbour(x, y, "right", shipSize)) {
             while (sampleBoard[x][y] == 0 && loop) {
                 counter++;
-                if (counter == shipSize+1) {
+                if (counter == shipSize + 1) {
                     loop = false;
                     result = "right";
-                } else { y++; }
+                } else {
+                    y++;
+                }
             }
-        } else if (checkHorizontalBoarders(y, shipSize).equals("left")) {
+        } else if (checkHorizontalBoarders(y, shipSize).equals("left") && !hasShipNeighbour(x, y, "left", shipSize)) {
             while (sampleBoard[x][y] == 0 && loop) {
                 counter++;
 
-                if (counter == shipSize+1) {
+                if (counter == shipSize + 1) {
                     loop = false;
                     result = "left";
-                } else {                y--;}
+                } else {
+                    y--;
+                }
             }
         }
         return result;
@@ -53,35 +57,37 @@ public class Board {
         String result = "impossible";
         boolean loop = true;
         int counter = 1;
-        if (checkVerticalBoarders(x, shipSize).equals("down")) {
+        if (checkVerticalBoarders(x, shipSize).equals("down") && !hasShipNeighbour(x, y, "down", shipSize)) {
             while (sampleBoard[x][y] == 0 && loop) {
                 counter++;
-
-                if (counter == shipSize +1) {
+                if (counter == shipSize + 1) {
                     loop = false;
                     result = "down";
-                } else {x++;}
+                } else {
+                    x++;
+                }
             }
-        } else if (checkVerticalBoarders(x, shipSize).equals("up")) {
+        } else if (checkVerticalBoarders(x, shipSize).equals("up") && !hasShipNeighbour(x, y, "up", shipSize)) {
             while (sampleBoard[x][y] == 0 && loop) {
                 counter++;
-
-                if (counter == shipSize+1) {
+                if (counter == shipSize + 1) {
                     loop = false;
                     result = "up";
-                } else {                x--;}
+                } else {
+                    x--;
+                }
             }
         }
         return result;
     }
 
-    public boolean firstPointCheck(int x, int y) {
-        if (sampleBoard[x][y] == 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    public boolean firstPointCheck(int x, int y) {
+////        if (sampleBoard[x][y] == 0) {
+////            return true;
+////        } else {
+////            return false;
+////        }
+////    }
 
     private void placeShipRandomly(int shipSize) {
         Random random = new Random();
@@ -94,13 +100,12 @@ public class Board {
             int direction = random.nextInt(2);          // 0 -> horizontal, 1 -> vertical
             x = random.nextInt(10);
             y = random.nextInt(10);
-            if (direction == 0) {
-                orientation = checkHorizontalCollisions(x, y, shipSize);
-            } else {
-                orientation = checkVerticalCollisions(x, y, shipSize);
-            }
-
-            if (firstPointCheck(x, y) && !orientation.equals("impossible")) {
+                if (direction == 0) {
+                    orientation = checkHorizontalCollisions(x, y, shipSize);
+                } else {
+                    orientation = checkVerticalCollisions(x, y, shipSize);
+                }
+            if (!orientation.equals("impossible")) {
                 loop = false;
             }
         }
@@ -117,6 +122,7 @@ public class Board {
                 sampleBoard[x + i][y] = shipSize;
             else if (orientation.equals("up"))
                 sampleBoard[x - i][y] = shipSize;
+
         }
     }
 
@@ -127,17 +133,15 @@ public class Board {
     }
 
     public void initBoard() {
-        placeShipRandomly(6);
-        placeShipRandomly( 5);
-        placeShipRandomly( 5);
-        placeShipRandomly( 4);
-        placeShipRandomly( 4);
-        placeShipRandomly( 3);
-        placeShipRandomly( 3);
-        placeShipRandomly( 2);
-        placeShipRandomly( 2);
+        placeShipRandomly(5);
+        placeShipRandomly(4);
+        placeShipRandomly(3);
+        placeShipRandomly(3);
+        placeShipRandomly(2);
+        placeShipRandomly(2);
+        placeShipRandomly(1);
+        placeShipRandomly(1);
     }
-
 
     public void printBoard() {
         for (int i = 0; i < sampleBoard.length; i++) {
@@ -148,7 +152,34 @@ public class Board {
         }
     }
 
-
     public void checkEndGame() {
+    }
+
+    public boolean hasPointNeighbour(int x, int y) {
+        boolean result = false; // pole jest wolne
+        for (int xx = (x - 1 >= 0 ? x - 1 : x); xx <= (x + 1 < 10 ? x + 1 : x); xx++) {
+            result = result || isOccupied(xx, y - 1 >= 0 ? y - 1 : y) || isOccupied(xx, y) || isOccupied(xx, y + 1 < 10 ? y + 1 : y);
+        }
+        return result;
+    }
+
+    public boolean hasShipNeighbour(int x, int y, String orientation, int shipSize) {
+        int dx = (orientation.equals("right") || orientation.equals("left") ? 0 : 1); // jeśli horizontal to dx =1, jeśli pion to dx =0
+        int dy = (orientation.equals("down") || orientation.equals("up") ? 0 : 1); // jeśli pion to dy = 1, jeśli poziom to dy =0
+        int dxx = (orientation.equals("down") ? 1 : -1);
+        int dyy = (orientation.equals("right") ? 1 : -1);
+        boolean result = false; // pole jest wolne
+        for (int step = 0; step < shipSize; step++) {
+            result = result || hasPointNeighbour(x + dx * step * dxx, y + dy * step * dyy);
+        }
+        return result; // false > wolne pola
+    }
+
+    private boolean isOccupied(int x, int y) {
+        if (sampleBoard[x][y] != 0) {
+            return true; // pole jest zajęte
+        } else {
+            return false; // pole jest wolne
+        }
     }
 }

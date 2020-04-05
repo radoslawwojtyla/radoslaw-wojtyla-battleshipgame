@@ -1,5 +1,6 @@
 package com.kodilla.battleshipgame;
 
+import com.sun.scenario.effect.Brightpass;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -51,32 +52,67 @@ public class BoardTest {
     }
 
     @Test
-    public void testCheckVerticalCollisions() {
+    public void testHasPointNeighbour() {
         //Given
-
+        Board board = new Board();
+        board.placeShip(10, "down", 0,4);
+        board.placeShip(10, "right", 4,0);
         //When
+        boolean result1 = board.hasPointNeighbour(1,1);
+        boolean result2 = board.hasPointNeighbour(1,2);
 
         //Then
 
+        Assert.assertEquals(false, result1);
+        Assert.assertEquals(true, result2);
+
     }
+
+//    @Test
+//    public void testIsOccupied() {
+//        //Given
+//        Board board = new Board();
+//        board.placeShip(6, "down", 0,4);
+//
+//        //When
+//        boolean result1 = board.isOccupied(0,4);
+//        boolean result2 = board.isOccupied(5,4);
+//        boolean result3 = board.isOccupied(6,4);
+//        //Then
+//        Assert.assertEquals(true, result1);
+//        Assert.assertEquals(true, result2);
+//        Assert.assertEquals(false, result3);
+//    }
 
     @Test
-    public void testFirstPointCheck() {
-        //Given
+    public void testHasShipNeighbour() {
+        Board board = new Board();
+        board.placeShip(10, "down", 0,4);
+        board.placeShip(10, "right", 4,0);
 
-        //When
+        boolean result1 = board.hasShipNeighbour(1,1, "right,",2);
+        boolean result2 = board.hasShipNeighbour(1,2, "right",2);
+        boolean result3 = board.hasShipNeighbour(5,2, "right",2);
+        boolean result4 = board.hasShipNeighbour(3,0, "right",2);
 
-        //Then
+        boolean result5 = board.hasShipNeighbour(1,1, "down",2);
+        boolean result6 = board.hasShipNeighbour(2,1, "down",2);
+        boolean result7 = board.hasShipNeighbour(2,5, "down",2);
+        boolean result8 = board.hasShipNeighbour(0,3, "down",2);
 
+        boolean result9 = board.hasShipNeighbour(1,6, "left",2);
+
+        Assert.assertEquals(false, result1);
+        Assert.assertEquals(true, result2);
+        Assert.assertEquals(true, result3);
+        Assert.assertEquals(true, result4);
+
+        Assert.assertEquals(false, result5);
+        Assert.assertEquals(true, result6);
+        Assert.assertEquals(true, result7);
+        Assert.assertEquals(true, result8);
+
+        Assert.assertEquals(true, result9);
     }
 
-    @Test
-    public void testShipDrawing() {
-        //Given
-
-        //When
-
-        //Then
-
-    }
 }
