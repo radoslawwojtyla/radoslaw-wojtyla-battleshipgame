@@ -123,13 +123,13 @@ public class Board {
     }
 
     public void initBoard() {
-//        placeShipRandomly(5);
-//        placeShipRandomly(4);
-//        placeShipRandomly(3);
-//        placeShipRandomly(3);
-//        placeShipRandomly(2);
-//        placeShipRandomly(2);
-//        placeShipRandomly(1);
+        placeShipRandomly(5);
+        placeShipRandomly(4);
+        placeShipRandomly(3);
+        placeShipRandomly(3);
+        placeShipRandomly(2);
+        placeShipRandomly(2);
+        placeShipRandomly(1);
         placeShipRandomly(1);
     }
 
@@ -171,7 +171,7 @@ public class Board {
     }
 
     public boolean endGame() {
-        int hitPoints = 1;
+        int hitPoints = 21;
         boolean endGame = false;
         int hits = 0;
         for (int i = 0; i < 10; i++) {
