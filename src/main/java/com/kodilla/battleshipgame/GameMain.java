@@ -10,12 +10,13 @@ public class GameMain {
         enemy.initBoard();
 
         while (!gameOver) {
-            String winner = "No one is";
+            String winner;
             user.shootingByUser();
-            enemy.shootingByEnemy();
             user.printBoard();
             System.out.println();
+            enemy.shootingByEnemy();
             enemy.printBoard();
+            System.out.println();
             if (user.endGame() || enemy.endGame()) {
                 gameOver = true;
                 winner = user.endGame() == true ? "You are" : "Your opponent";
