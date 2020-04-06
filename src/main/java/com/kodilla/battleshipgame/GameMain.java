@@ -2,16 +2,26 @@ package com.kodilla.battleshipgame;
 
 public class GameMain {
     public static void main(String[] args) {
-        Board board = new Board();
+        Player user = new Player();
+        Player enemy = new Player();
+        boolean gameOver = false;
 
-        board.initBoard();
-//        board.placeShip(10, "down", 0,4);
-//        board.placeShip(10, "right", 4,0);
-//        board.placeShip(2, "left", 1,6);
-        board.printBoard();
-        System.out.println();
+        user.initBoard();
+        enemy.initBoard();
 
-
-
+        while (!gameOver) {
+            String winner = "No one is";
+            user.shootingByUser();
+            enemy.shootingByEnemy();
+            user.printBoard();
+            System.out.println();
+            enemy.printBoard();
+            if (user.endGame() || enemy.endGame()) {
+                gameOver = true;
+                winner = user.endGame() == true ? "You are" : "Your opponent";
+                System.out.println("Game Over");
+                System.out.println(winner + " the winner");
+            }
+        }
     }
 }

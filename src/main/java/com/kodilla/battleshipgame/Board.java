@@ -52,7 +52,6 @@ public class Board {
         return result;
     }
 
-
     public String checkVerticalCollisions(int x, int y, int shipSize) {
         String result = "impossible";
         boolean loop = true;
@@ -81,14 +80,6 @@ public class Board {
         return result;
     }
 
-//    public boolean firstPointCheck(int x, int y) {
-////        if (sampleBoard[x][y] == 0) {
-////            return true;
-////        } else {
-////            return false;
-////        }
-////    }
-
     private void placeShipRandomly(int shipSize) {
         Random random = new Random();
 
@@ -100,11 +91,11 @@ public class Board {
             int direction = random.nextInt(2);          // 0 -> horizontal, 1 -> vertical
             x = random.nextInt(10);
             y = random.nextInt(10);
-                if (direction == 0) {
-                    orientation = checkHorizontalCollisions(x, y, shipSize);
-                } else {
-                    orientation = checkVerticalCollisions(x, y, shipSize);
-                }
+            if (direction == 0) {
+                orientation = checkHorizontalCollisions(x, y, shipSize);
+            } else {
+                orientation = checkVerticalCollisions(x, y, shipSize);
+            }
             if (!orientation.equals("impossible")) {
                 loop = false;
             }
@@ -122,7 +113,6 @@ public class Board {
                 sampleBoard[x + i][y] = shipSize;
             else if (orientation.equals("up"))
                 sampleBoard[x - i][y] = shipSize;
-
         }
     }
 
@@ -133,13 +123,13 @@ public class Board {
     }
 
     public void initBoard() {
-        placeShipRandomly(5);
-        placeShipRandomly(4);
-        placeShipRandomly(3);
-        placeShipRandomly(3);
-        placeShipRandomly(2);
-        placeShipRandomly(2);
-        placeShipRandomly(1);
+//        placeShipRandomly(5);
+//        placeShipRandomly(4);
+//        placeShipRandomly(3);
+//        placeShipRandomly(3);
+//        placeShipRandomly(2);
+//        placeShipRandomly(2);
+//        placeShipRandomly(1);
         placeShipRandomly(1);
     }
 
@@ -150,9 +140,6 @@ public class Board {
             }
             System.out.println();
         }
-    }
-
-    public void checkEndGame() {
     }
 
     public boolean hasPointNeighbour(int x, int y) {
@@ -181,5 +168,22 @@ public class Board {
         } else {
             return false; // pole jest wolne
         }
+    }
+
+    public boolean endGame() {
+        int hitPoints = 1;
+        boolean endGame = false;
+        int hits = 0;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (sampleBoard[i][j] > 10) {
+                    hits++;
+                }
+            }
+        }
+        if (hits == hitPoints) {
+            endGame = true; // koniec gry
+        }
+        return endGame;
     }
 }
