@@ -14,8 +14,10 @@ public class GameMain {
             user.shootingByUser();
             user.printBoard();
             System.out.println();
+            user.printBoardToShow();
+            System.out.println();
             enemy.shootingByEnemy();
-            enemy.printBoard();
+//            enemy.printBoard();
             System.out.println();
             if (user.endGame() || enemy.endGame()) {
                 gameOver = true;

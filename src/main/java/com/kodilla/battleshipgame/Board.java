@@ -1,11 +1,18 @@
 package com.kodilla.battleshipgame;
 
 import java.util.Random;
-import java.util.Scanner;
 
 public class Board {
 
     int[][] sampleBoard = new int[10][];
+    int[][] showingBoard = new int[10][];
+
+    public Board() {
+        for (int i = 0; i < 10; i++) {
+            sampleBoard[i] = new int[10];
+            showingBoard[i] = new int[10];
+        }
+    }
 
     public String checkHorizontalBoarders(int y, int shipSize) {
         if (y + shipSize - 1 < 10) {
@@ -116,12 +123,6 @@ public class Board {
         }
     }
 
-    public Board() {
-        for (int i = 0; i < 10; i++) {
-            sampleBoard[i] = new int[10];
-        }
-    }
-
     public void initBoard() {
         placeShipRandomly(5);
         placeShipRandomly(4);
@@ -133,10 +134,21 @@ public class Board {
         placeShipRandomly(1);
     }
 
+
+
     public void printBoard() {
         for (int i = 0; i < sampleBoard.length; i++) {
             for (int j = 0; j < sampleBoard[i].length; j++) {
                 System.out.print(sampleBoard[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public void printBoardToShow() {
+        for (int i = 0; i < showingBoard.length; i++) {
+            for (int j = 0; j < showingBoard[i].length; j++) {
+                System.out.print(showingBoard[i][j] + " ");
             }
             System.out.println();
         }
