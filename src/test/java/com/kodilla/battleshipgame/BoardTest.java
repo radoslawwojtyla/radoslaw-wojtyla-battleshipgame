@@ -87,20 +87,20 @@ public class BoardTest {
     @Test
     public void testHasShipNeighbour() {
         Board board = new Board();
-        board.placeShip(10, "down", 0,4);
-        board.placeShip(10, "right", 4,0);
+        board.placeShip(10, "down", 0, 4);
+        board.placeShip(10, "right", 4, 0);
 
-        boolean result1 = board.hasShipNeighbour(1,1, "right,",2);
-        boolean result2 = board.hasShipNeighbour(1,2, "right",2);
-        boolean result3 = board.hasShipNeighbour(5,2, "right",2);
-        boolean result4 = board.hasShipNeighbour(3,0, "right",2);
+        boolean result1 = board.hasShipNeighbour(1, 1, "right,", 2);
+        boolean result2 = board.hasShipNeighbour(1, 2, "right", 2);
+        boolean result3 = board.hasShipNeighbour(5, 2, "right", 2);
+        boolean result4 = board.hasShipNeighbour(3, 0, "right", 2);
 
-        boolean result5 = board.hasShipNeighbour(1,1, "down",2);
-        boolean result6 = board.hasShipNeighbour(2,1, "down",2);
-        boolean result7 = board.hasShipNeighbour(2,5, "down",2);
-        boolean result8 = board.hasShipNeighbour(0,3, "down",2);
+        boolean result5 = board.hasShipNeighbour(1, 1, "down", 2);
+        boolean result6 = board.hasShipNeighbour(2, 1, "down", 2);
+        boolean result7 = board.hasShipNeighbour(2, 5, "down", 2);
+        boolean result8 = board.hasShipNeighbour(0, 3, "down", 2);
 
-        boolean result9 = board.hasShipNeighbour(1,6, "left",2);
+        boolean result9 = board.hasShipNeighbour(1, 6, "left", 2);
 
         Assert.assertEquals(false, result1);
         Assert.assertEquals(true, result2);
@@ -115,4 +115,15 @@ public class BoardTest {
         Assert.assertEquals(true, result9);
     }
 
+//        @Test
+//        public void testHitAndSink() {
+//        Board board = new Board();
+//        Player player = new Player();
+//        board.placeShip(1,"down",3,3);
+//
+//
+//        boolean result1 = player.hitAndSink(4,4);
+//
+//        Assert.assertEquals(true, result1);
+//    }
 }

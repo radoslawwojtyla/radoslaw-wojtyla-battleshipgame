@@ -1,5 +1,8 @@
 package com.kodilla.battleshipgame;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
 import java.util.Random;
 
 public class Board {
@@ -123,7 +126,7 @@ public class Board {
         }
     }
 
-    public void initBoard() {
+    public int[][] initBoard() {
         placeShipRandomly(5);
         placeShipRandomly(4);
         placeShipRandomly(3);
@@ -132,6 +135,7 @@ public class Board {
         placeShipRandomly(2);
         placeShipRandomly(1);
         placeShipRandomly(1);
+        return sampleBoard;
     }
 
 
@@ -197,5 +201,88 @@ public class Board {
             endGame = true; // koniec gry
         }
         return endGame;
+    }
+
+    public void sampleHit(int x, int y) {
+        int shot = sampleBoard[x][y];
+        sampleBoard[x][y] = shot + 10;
+    }
+
+
+    public boolean hitAndSink(int x, int y) {
+        boolean result = false; // nie zatopiony
+        int ShipSize = sampleBoard[x][y];
+        int sinkPoints = (ShipSize+10)*ShipSize; //np. 5+10 (trafiony) *5 = 75 => zatopiony 5-masztowiec
+        int temporaryPoints;
+        for (int i =0; i < ShipSize; i++) {
+            temporaryPoints =+ sampleBoard[x][y + 1];
+            if (temporaryPoints == sinkPoints) {
+                result = true; // zatopiony
+            }
+        }
+        for (int i =0; i < ShipSize; i++) {
+            temporaryPoints =+ sampleBoard[x][y - 1];
+            if (temporaryPoints == sinkPoints) {
+                result = true; // zatopiony
+            }
+        }
+        for (int i =0; i < ShipSize; i++) {
+            temporaryPoints =+ sampleBoard[x+1][y];
+            if (temporaryPoints == sinkPoints) {
+                result = true; // zatopiony
+            }
+        }
+        for (int i =0; i < ShipSize; i++) {
+            temporaryPoints =+ sampleBoard[x-1][y];
+            if (temporaryPoints == sinkPoints) {
+                result = true; // zatopiony
+            }
+        }
+        return result;
+    }
+
+    public void shootingByEnemy() {
+        Random random = new Random();
+        boolean loop = true;
+        while (loop) {
+            int x = random.nextInt(10);
+            int y = random.nextInt(10);
+            int shot = sampleBoard[x][y];
+            if (shot == 0) {
+                loop = false;
+                sampleBoard[x][y] = shot + 10;
+                showingBoard[x][y] = shot +10;
+            } else if (shot > 0 && shot < 9) {
+                sampleBoard[x][y] = shot + 10;
+                showingBoard[x][y] = shot +10;
+                if (hitAndSink(x,y)) {
+                }
+            }
+        }
+    }
+    public void shootingByUser(int x, int y) {
+        Player player = new Player();
+        boolean loop = true;
+        while (loop) {
+//            int x = player.getX();
+//            int y = player.getY();
+            int shot = sampleBoard[x][y];
+            if (shot > 9) {
+//                System.out.println("To miejsce było już ostrzelane, co za pech...");
+                loop = false;
+            } else if (shot == 0) {
+//                System.out.println("Pudło");
+                sampleBoard[x][y] = shot + 10;
+                showingBoard[x][y] = shot + 10;
+                loop = false;
+            } else {
+//                System.out.println("Trafienie");
+                sampleBoard[x][y] = shot + 10;
+                showingBoard[x][y] = shot + 10;
+                if (hitAndSink(x,y)) {
+//                    System.out.println("Trafiony, zatopiony!");
+                }
+            }
+        }
     }
 }
