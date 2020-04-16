@@ -9,6 +9,7 @@ public class Board {
 
     int[][] sampleBoard = new int[10][];
     int[][] showingBoard = new int[10][];
+    int[] coordinates = new int[2];
 
     public Board() {
         for (int i = 0; i < 10; i++) {
@@ -241,31 +242,36 @@ public class Board {
         return result;
     }
 
-    public void shootingByEnemy() {
+    public int[] shootingByEnemy() {
         Random random = new Random();
         boolean loop = true;
+        int x =0;
+        int y =0;
         while (loop) {
-            int x = random.nextInt(10);
-            int y = random.nextInt(10);
+            x = random.nextInt(10);
+            y = random.nextInt(10);
             int shot = sampleBoard[x][y];
             if (shot == 0) {
                 loop = false;
                 sampleBoard[x][y] = shot + 10;
-                showingBoard[x][y] = shot +10;
+                showingBoard[x][y] = shot + 10;
             } else if (shot > 0 && shot < 9) {
                 sampleBoard[x][y] = shot + 10;
                 showingBoard[x][y] = shot +10;
                 if (hitAndSink(x,y)) {
                 }
             }
+            coordinates[0] = x;
+            coordinates[1] = y;
         }
+    return coordinates;
     }
-    public void shootingByUser(int x, int y) {
-        Player player = new Player();
+
+    public void shootingByUser(int setX, int setY) {
         boolean loop = true;
         while (loop) {
-//            int x = player.getX();
-//            int y = player.getY();
+            int x = setX;
+            int y = setY;
             int shot = sampleBoard[x][y];
             if (shot > 9) {
 //                System.out.println("To miejsce było już ostrzelane, co za pech...");
@@ -279,9 +285,9 @@ public class Board {
 //                System.out.println("Trafienie");
                 sampleBoard[x][y] = shot + 10;
                 showingBoard[x][y] = shot + 10;
-                if (hitAndSink(x,y)) {
-//                    System.out.println("Trafiony, zatopiony!");
-                }
+//                if (hitAndSink(x,y)) {
+////                    System.out.println("Trafiony, zatopiony!");
+//                }
             }
         }
     }
