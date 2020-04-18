@@ -1,6 +1,7 @@
 package com.kodilla.battleshipgame;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -21,10 +22,7 @@ public class GameMain extends Application {
     int FIELD_SIZE = 30;
     Board player = new Board();
     Board enemy = new Board();
-    boolean gameOver = false;
-    boolean playerTurn = true;
     private int offsetX = 11;
-
 
     public void playerBoard() {
         for (int i = 0; i < 10; i++) {
@@ -50,10 +48,11 @@ public class GameMain extends Application {
         grid.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                boolean loop = true;
+                boolean gameOver = false;
                 int setX = (int) Math.ceil((event.getX() - 30) / FIELD_SIZE) - 1;
                 int setY = (int) Math.ceil((event.getY() - 210) / FIELD_SIZE) - 1;
-                if (setX >= 0 && setX <= 9 && setY >= 0 && setY <= 9) {
+
+                if (setX >= 0 && setX <= 9 && setY >= 0 && setY <= 9 && player.fieldWithNoHit(setX, setY)) {
                     player.shootingByUser(setX, setY);
                     int result = player.sampleBoard[setX][setY];
                     if (result == 10) {
@@ -65,10 +64,14 @@ public class GameMain extends Application {
                         grid.add(hit, setX, setY);
                     }
                 }
-                if (false) {
-                    // user wygrał
+                if (player.endGame()) {
+                    System.out.println("Wygrałeś");
+                    System.exit(0);
+
                 } else {
-                    if (false) {
+                    if (enemy.endGame()) {
+                        System.out.println("Wygrał przeciwnik");
+                        System.exit(0);
                     }
                 }
             }
@@ -93,58 +96,46 @@ public class GameMain extends Application {
         }
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void newGame() {
+        player.initBoard();
+        enemy.initBoard();
+        playerBoard();
+        enemyBoard();
+    }
 
+    @Override
+    public void start(final Stage primaryStage) {
         grid.setAlignment(Pos.CENTER_LEFT);
         grid.setPadding(new Insets(FIELD_SIZE));
-        for (int n = 0; n < 20; n++)
+        for (int n = 0; n < 22; n++)
             grid.getColumnConstraints().add(new ColumnConstraints(FIELD_SIZE));
         for (int n = 0; n < 10; n++)
             grid.getRowConstraints().add(new RowConstraints(FIELD_SIZE));
 
         int SCENE_HEIGHT = 720;
         int SCENE_WIDTH = 1280;
+
+        Button endGame = new Button("Koniec gry");
+        endGame.setOnAction((event) -> {
+            System.exit(0);
+        });
+
+        final Button restartGame = new Button("Nowa gra");
+        restartGame.setOnAction((event -> {
+                    primaryStage.close();
+                    Platform.runLater(() -> new GameMain().start(new Stage()));
+                }));
+
+        grid.add(endGame, 30, 3);
+        grid.add(restartGame, 30, 5);
+
         Scene scene = new Scene(grid, SCENE_WIDTH, SCENE_HEIGHT);
         primaryStage.setTitle("BattleShip Game");
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        player.initBoard();
-        enemy.initBoard();
-
-        playerBoard();
-        enemyBoard();
-
-//        while (!gameOver) {
+        newGame();
         playerTurn();
-//            enemyTurn();
-//            if (player.endGame() || enemy.endGame()) {
-//                gameOver = true;
-//            }
-//        }
-
-//        while (!gameOver) {
-//            String winner;
-//            playerTurn();
-//            enemyTurn();
-//            if (player.endGame() || enemy.endGame()) {
-//                gameOver = true;
-//                winner = player.endGame() == true ? "You are" : "Your opponent";
-//                System.out.println("Game Over");
-//                System.out.println(winner + " the winner");
-//            }
-//        }
-
-
-//        player.printBoardToShow();
-//        System.out.println();
-//        player.printBoard();
-
-
-//        enemyTurn();
-//        System.out.println();
-//        enemy.printBoardToShow();
     }
 
     public static void main(String[] args) {

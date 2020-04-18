@@ -268,6 +268,14 @@ public class Board {
     return coordinates;
     }
 
+    public boolean fieldWithNoHit(int x, int y) {
+        boolean result = true;
+        if (sampleBoard[x][y] >= 10) {
+            result = false;
+        }
+        return result;
+    }
+
     public void shootingByUser(int setX, int setY) {
         boolean loop = true;
         while (loop) {
