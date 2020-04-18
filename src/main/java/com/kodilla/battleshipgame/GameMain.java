@@ -1,25 +1,18 @@
 package com.kodilla.battleshipgame;
 
 import javafx.application.Application;
-import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.w3c.dom.css.Rect;
-
-import java.sql.SQLOutput;
 
 
 public class GameMain extends Application {
@@ -30,9 +23,7 @@ public class GameMain extends Application {
     Board enemy = new Board();
     boolean gameOver = false;
     boolean playerTurn = true;
-    private int offsetX  = 11;
-
-    // col row constrains
+    private int offsetX = 11;
 
 
     public void playerBoard() {
@@ -50,7 +41,7 @@ public class GameMain extends Application {
             for (int j = 0; j < 10; j++) {
                 Rectangle field2 = new Rectangle(FIELD_SIZE, FIELD_SIZE, Color.DARKGRAY);
                 field2.setStroke(Color.BLACK);
-                grid.add(field2, i+11, j);
+                grid.add(field2, i + 11, j);
             }
         }
     }
@@ -59,45 +50,46 @@ public class GameMain extends Application {
         grid.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                boolean loop = true;
                 int setX = (int) Math.ceil((event.getX() - 30) / FIELD_SIZE) - 1;
                 int setY = (int) Math.ceil((event.getY() - 210) / FIELD_SIZE) - 1;
                 if (setX >= 0 && setX <= 9 && setY >= 0 && setY <= 9) {
+                    player.shootingByUser(setX, setY);
                     int result = player.sampleBoard[setX][setY];
-                    if (result == 0) {
+                    if (result == 10) {
                         Rectangle miss = new Rectangle(FIELD_SIZE, FIELD_SIZE, Color.BLACK);
                         grid.add(miss, setX, setY);
-                    } else if (result > 0 && result < 10) {
+                        enemyTurn();
+                    } else if (result > 10) {
                         Rectangle hit = new Rectangle(FIELD_SIZE, FIELD_SIZE, Color.RED);
                         grid.add(hit, setX, setY);
                     }
-                    player.shootingByUser(setX, setY);
-                    player.printBoardToShow();
+                }
+                if (false) {
+                    // user wygrał
+                } else {
                     if (false) {
-                        // user wygrał
-                    } else {
-                        enemyTurn();
-                        if (false) {
-                            // wygrał PC
-                            // zamkniecie okna >>> reset gry ///
-                        }
                     }
                 }
-
             }
         });
     }
 
     public void enemyTurn() {
-        enemy.shootingByEnemy();
-        int setX = enemy.coordinates[0];
-        int setY = enemy.coordinates[1];
-        int result = enemy.sampleBoard[setX][setY];
-        if (result == 10) {
-            Rectangle miss = new Rectangle(FIELD_SIZE, FIELD_SIZE, Color.BLACK);
-            grid.add(miss, setX + offsetX, setY);
-        } else if (result > 10) {
-            Rectangle hit = new Rectangle(FIELD_SIZE, FIELD_SIZE, Color.RED);
-            grid.add(hit, setX + offsetX, setY);
+        boolean loop = true;
+        while (loop) {
+            enemy.shootingByEnemy();
+            int setX = enemy.coordinates[0];
+            int setY = enemy.coordinates[1];
+            int result = enemy.sampleBoard[setX][setY];
+            if (result == 10) {
+                Rectangle miss = new Rectangle(FIELD_SIZE, FIELD_SIZE, Color.BLACK);
+                grid.add(miss, setX + offsetX, setY);
+                loop = false;
+            } else if (result > 10) {
+                Rectangle hit = new Rectangle(FIELD_SIZE, FIELD_SIZE, Color.RED);
+                grid.add(hit, setX + offsetX, setY);
+            }
         }
     }
 
@@ -106,13 +98,10 @@ public class GameMain extends Application {
 
         grid.setAlignment(Pos.CENTER_LEFT);
         grid.setPadding(new Insets(FIELD_SIZE));
-        for (int n=0; n<20; n++)
+        for (int n = 0; n < 20; n++)
             grid.getColumnConstraints().add(new ColumnConstraints(FIELD_SIZE));
-        for (int n=0; n<10; n++)
+        for (int n = 0; n < 10; n++)
             grid.getRowConstraints().add(new RowConstraints(FIELD_SIZE));
-//        grid.setHgap(2); // odstępy
-//        grid.setVgap(2); // odstepy
-
 
         int SCENE_HEIGHT = 720;
         int SCENE_WIDTH = 1280;
@@ -124,34 +113,21 @@ public class GameMain extends Application {
         player.initBoard();
         enemy.initBoard();
 
-
         playerBoard();
         enemyBoard();
 
+//        while (!gameOver) {
         playerTurn();
-//        player.printBoardToShow();
-//        System.out.println();
-//        player.printBoard();
+//            enemyTurn();
+//            if (player.endGame() || enemy.endGame()) {
+//                gameOver = true;
+//            }
+//        }
 
-//        enemyTurn();
-//        System.out.println();
-//        enemy.printBoardToShow();
-
-
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-}
-
-
-//            while (!gameOver) {
+//        while (!gameOver) {
 //            String winner;
-//            player.shootingByUser();
-//            enemy.shootingByEnemy();
-//
+//            playerTurn();
+//            enemyTurn();
 //            if (player.endGame() || enemy.endGame()) {
 //                gameOver = true;
 //                winner = player.endGame() == true ? "You are" : "Your opponent";
@@ -159,3 +135,20 @@ public class GameMain extends Application {
 //                System.out.println(winner + " the winner");
 //            }
 //        }
+
+
+//        player.printBoardToShow();
+//        System.out.println();
+//        player.printBoard();
+
+
+//        enemyTurn();
+//        System.out.println();
+//        enemy.printBoardToShow();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+}

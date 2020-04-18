@@ -153,7 +153,7 @@ public class Board {
     public void printBoardToShow() {
         for (int i = 0; i < showingBoard.length; i++) {
             for (int j = 0; j < showingBoard[i].length; j++) {
-                System.out.print(showingBoard[i][j] + " ");
+                System.out.print(showingBoard[j][i] + " ");
             }
             System.out.println();
         }
@@ -210,37 +210,37 @@ public class Board {
     }
 
 
-    public boolean hitAndSink(int x, int y) {
-        boolean result = false; // nie zatopiony
-        int ShipSize = sampleBoard[x][y];
-        int sinkPoints = (ShipSize+10)*ShipSize; //np. 5+10 (trafiony) *5 = 75 => zatopiony 5-masztowiec
-        int temporaryPoints;
-        for (int i =0; i < ShipSize; i++) {
-            temporaryPoints =+ sampleBoard[x][y + 1];
-            if (temporaryPoints == sinkPoints) {
-                result = true; // zatopiony
-            }
-        }
-        for (int i =0; i < ShipSize; i++) {
-            temporaryPoints =+ sampleBoard[x][y - 1];
-            if (temporaryPoints == sinkPoints) {
-                result = true; // zatopiony
-            }
-        }
-        for (int i =0; i < ShipSize; i++) {
-            temporaryPoints =+ sampleBoard[x+1][y];
-            if (temporaryPoints == sinkPoints) {
-                result = true; // zatopiony
-            }
-        }
-        for (int i =0; i < ShipSize; i++) {
-            temporaryPoints =+ sampleBoard[x-1][y];
-            if (temporaryPoints == sinkPoints) {
-                result = true; // zatopiony
-            }
-        }
-        return result;
-    }
+//    public boolean hitAndSink(int x, int y) {
+//        boolean result = false; // nie zatopiony
+//        int ShipSize = sampleBoard[x][y];
+//        int sinkPoints = (ShipSize+10)*ShipSize; //np. 5+10 (trafiony) *5 = 75 => zatopiony 5-masztowiec
+//        int temporaryPoints;
+//        for (int i =0; i < ShipSize; i++) {
+//            temporaryPoints =+ sampleBoard[x][y + 1];
+//            if (temporaryPoints == sinkPoints) {
+//                result = true; // zatopiony
+//            }
+//        }
+//        for (int i =0; i < ShipSize; i++) {
+//            temporaryPoints =+ sampleBoard[x][y - 1];
+//            if (temporaryPoints == sinkPoints) {
+//                result = true; // zatopiony
+//            }
+//        }
+//        for (int i =0; i < ShipSize; i++) {
+//            temporaryPoints =+ sampleBoard[x+1][y];
+//            if (temporaryPoints == sinkPoints) {
+//                result = true; // zatopiony
+//            }
+//        }
+//        for (int i =0; i < ShipSize; i++) {
+//            temporaryPoints =+ sampleBoard[x-1][y];
+//            if (temporaryPoints == sinkPoints) {
+//                result = true; // zatopiony
+//            }
+//        }
+//        return result;
+//    }
 
     public int[] shootingByEnemy() {
         Random random = new Random();
@@ -256,10 +256,11 @@ public class Board {
                 sampleBoard[x][y] = shot + 10;
                 showingBoard[x][y] = shot + 10;
             } else if (shot > 0 && shot < 9) {
+                loop = false;
                 sampleBoard[x][y] = shot + 10;
                 showingBoard[x][y] = shot +10;
-                if (hitAndSink(x,y)) {
-                }
+//                if (hitAndSink(x,y)) {
+//                }
             }
             coordinates[0] = x;
             coordinates[1] = y;
@@ -285,6 +286,7 @@ public class Board {
 //                System.out.println("Trafienie");
                 sampleBoard[x][y] = shot + 10;
                 showingBoard[x][y] = shot + 10;
+                loop = false;
 //                if (hitAndSink(x,y)) {
 ////                    System.out.println("Trafiony, zatopiony!");
 //                }
