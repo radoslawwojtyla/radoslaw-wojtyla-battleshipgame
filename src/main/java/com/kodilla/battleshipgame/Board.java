@@ -7,6 +7,7 @@ public class Board {
     int[][] sampleBoard = new int[10][];
     int[][] showingBoard = new int[10][];
     int[] coordinates = new int[2];
+    int HP;
 
     public Board() {
         for (int i = 0; i < 10; i++) {
@@ -132,6 +133,13 @@ public class Board {
         placeShipRandomly(2);
         placeShipRandomly(1);
         placeShipRandomly(1);
+        for (int i=0; i<10; i++) {
+            for (int j=0; j<10; j++) {
+                if (sampleBoard[i][j] >0) {
+                    HP++;
+                }
+            }
+        }
         return sampleBoard;
     }
 
@@ -182,7 +190,7 @@ public class Board {
     }
 
     public boolean endGame() {
-        int hitPoints = 5;
+        int hitPoints = HP;
         boolean endGame = false;
         int hits = 0;
         for (int i = 0; i < 10; i++) {
