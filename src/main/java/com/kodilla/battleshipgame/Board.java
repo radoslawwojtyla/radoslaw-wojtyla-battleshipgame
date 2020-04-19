@@ -90,13 +90,12 @@ public class Board {
 
     private void placeShipRandomly(int shipSize) {
         Random random = new Random();
-
         boolean loop = true;
         int x = 0;
         int y = 0;
         String orientation = "";
         while (loop) {
-            int direction = random.nextInt(2);          // 0 -> horizontal, 1 -> vertical
+            int direction = random.nextInt(2); // 0 -> horizontal, 1 -> vertical
             x = random.nextInt(10);
             y = random.nextInt(10);
             if (direction == 0) {
@@ -126,13 +125,13 @@ public class Board {
 
     public int[][] initBoard() {
         placeShipRandomly(5);
-//        placeShipRandomly(4);
-//        placeShipRandomly(3);
-//        placeShipRandomly(3);
-//        placeShipRandomly(2);
-//        placeShipRandomly(2);
-//        placeShipRandomly(1);
-//        placeShipRandomly(1);
+        placeShipRandomly(4);
+        placeShipRandomly(3);
+        placeShipRandomly(3);
+        placeShipRandomly(2);
+        placeShipRandomly(2);
+        placeShipRandomly(1);
+        placeShipRandomly(1);
         return sampleBoard;
     }
 
@@ -153,7 +152,6 @@ public class Board {
             System.out.println();
         }
     }
-
 
     public boolean hasPointNeighbour(int x, int y) {
         boolean result = false; // pole jest wolne
@@ -199,7 +197,6 @@ public class Board {
         }
         return endGame;
     }
-
 
 //    public boolean hitAndSink(int x, int y) {
 //        boolean result = false; // nie zatopiony
@@ -273,7 +270,7 @@ public class Board {
             int x = setX;
             int y = setY;
             int shot = sampleBoard[x][y];
-            if (shot > 9) { // miejsce
+            if (shot > 9) {
                 loop = false;
             } else if (shot == 0) { // pudło
                 sampleBoard[x][y] = shot + 10;

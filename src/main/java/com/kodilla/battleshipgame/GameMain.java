@@ -8,8 +8,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -19,22 +17,14 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.util.Stack;
-
-
 public class GameMain extends Application {
 
-
     GridPane grid = new GridPane();
-    GridPane grid2 = new GridPane();
 
     int FIELD_SIZE = 30;
     Board player = new Board();
     Board enemy = new Board();
     private int offsetX = 11;
-    private int offsetY = 0;
-
-    StackPane stack = new StackPane();
 
     public void playerBoard() {
         for (int i = 0; i < 10; i++) {
@@ -85,7 +75,6 @@ public class GameMain extends Application {
                 }
             }
         });
-
     }
 
     public void enemyTurn() {
@@ -149,8 +138,8 @@ public class GameMain extends Application {
         Text text1 = new Text("Your board");
         Text text2 = new Text("Your opponent board");
 
-        grid.add(text1, 4,12);
-        grid.add(text2, 14,12);
+        grid.add(text1, 4, 12);
+        grid.add(text2, 14, 12);
 
         Scene scene = new Scene(grid, SCENE_WIDTH, SCENE_HEIGHT);
         primaryStage.setTitle("BattleShip Game");
@@ -168,12 +157,7 @@ public class GameMain extends Application {
         playerTurn();
     }
 
-
-
-
-
     public static void main(String[] args) {
         launch(args);
     }
-
 }
