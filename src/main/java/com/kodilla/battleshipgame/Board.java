@@ -1,8 +1,5 @@
 package com.kodilla.battleshipgame;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-
 import java.util.Random;
 
 public class Board {
@@ -129,17 +126,15 @@ public class Board {
 
     public int[][] initBoard() {
         placeShipRandomly(5);
-        placeShipRandomly(4);
-        placeShipRandomly(3);
-        placeShipRandomly(3);
-        placeShipRandomly(2);
-        placeShipRandomly(2);
-        placeShipRandomly(1);
-        placeShipRandomly(1);
+//        placeShipRandomly(4);
+//        placeShipRandomly(3);
+//        placeShipRandomly(3);
+//        placeShipRandomly(2);
+//        placeShipRandomly(2);
+//        placeShipRandomly(1);
+//        placeShipRandomly(1);
         return sampleBoard;
     }
-
-
 
     public void printBoard() {
         for (int i = 0; i < sampleBoard.length; i++) {
@@ -158,6 +153,7 @@ public class Board {
             System.out.println();
         }
     }
+
 
     public boolean hasPointNeighbour(int x, int y) {
         boolean result = false; // pole jest wolne
@@ -188,7 +184,7 @@ public class Board {
     }
 
     public boolean endGame() {
-        int hitPoints = 21;
+        int hitPoints = 5;
         boolean endGame = false;
         int hits = 0;
         for (int i = 0; i < 10; i++) {
@@ -202,11 +198,6 @@ public class Board {
             endGame = true; // koniec gry
         }
         return endGame;
-    }
-
-    public void sampleHit(int x, int y) {
-        int shot = sampleBoard[x][y];
-        sampleBoard[x][y] = shot + 10;
     }
 
 
@@ -245,8 +236,8 @@ public class Board {
     public int[] shootingByEnemy() {
         Random random = new Random();
         boolean loop = true;
-        int x =0;
-        int y =0;
+        int x = 0;
+        int y = 0;
         while (loop) {
             x = random.nextInt(10);
             y = random.nextInt(10);
@@ -258,14 +249,14 @@ public class Board {
             } else if (shot > 0 && shot < 9) {
                 loop = false;
                 sampleBoard[x][y] = shot + 10;
-                showingBoard[x][y] = shot +10;
+                showingBoard[x][y] = shot + 10;
 //                if (hitAndSink(x,y)) {
 //                }
             }
             coordinates[0] = x;
             coordinates[1] = y;
         }
-    return coordinates;
+        return coordinates;
     }
 
     public boolean fieldWithNoHit(int x, int y) {
@@ -282,21 +273,17 @@ public class Board {
             int x = setX;
             int y = setY;
             int shot = sampleBoard[x][y];
-            if (shot > 9) {
-//                System.out.println("To miejsce było już ostrzelane, co za pech...");
+            if (shot > 9) { // miejsce
                 loop = false;
-            } else if (shot == 0) {
-//                System.out.println("Pudło");
+            } else if (shot == 0) { // pudło
                 sampleBoard[x][y] = shot + 10;
                 showingBoard[x][y] = shot + 10;
                 loop = false;
-            } else {
-//                System.out.println("Trafienie");
+            } else { // trafienie
                 sampleBoard[x][y] = shot + 10;
                 showingBoard[x][y] = shot + 10;
                 loop = false;
 //                if (hitAndSink(x,y)) {
-////                    System.out.println("Trafiony, zatopiony!");
 //                }
             }
         }

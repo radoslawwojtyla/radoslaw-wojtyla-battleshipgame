@@ -2,7 +2,6 @@ package com.kodilla.battleshipgame;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,6 +12,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
@@ -39,7 +40,7 @@ public class GameMain extends Application {
             for (int j = 0; j < 10; j++) {
                 Rectangle field2 = new Rectangle(FIELD_SIZE, FIELD_SIZE, Color.DARKGRAY);
                 field2.setStroke(Color.BLACK);
-                grid.add(field2, i + 11, j);
+                grid.add(field2, i + offsetX, j);
             }
         }
     }
@@ -48,10 +49,8 @@ public class GameMain extends Application {
         grid.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                boolean gameOver = false;
                 int setX = (int) Math.ceil((event.getX() - 30) / FIELD_SIZE) - 1;
                 int setY = (int) Math.ceil((event.getY() - 210) / FIELD_SIZE) - 1;
-
                 if (setX >= 0 && setX <= 9 && setY >= 0 && setY <= 9 && player.fieldWithNoHit(setX, setY)) {
                     player.shootingByUser(setX, setY);
                     int result = player.sampleBoard[setX][setY];
@@ -65,17 +64,17 @@ public class GameMain extends Application {
                     }
                 }
                 if (player.endGame()) {
-                    System.out.println("Wygrałeś");
-                    System.exit(0);
-
+                    endingWindow("YOU are");
+                    grid.setOnMouseClicked(null);
                 } else {
                     if (enemy.endGame()) {
-                        System.out.println("Wygrał przeciwnik");
-                        System.exit(0);
+                        endingWindow("YOUR OPPONENT is");
+                        grid.setOnMouseClicked(null);
                     }
                 }
             }
         });
+
     }
 
     public void enemyTurn() {
@@ -96,15 +95,25 @@ public class GameMain extends Application {
         }
     }
 
-    public void newGame() {
-        player.initBoard();
-        enemy.initBoard();
-        playerBoard();
-        enemyBoard();
+    public void endingWindow(String winner) {
+        final Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        VBox windowVbox = new VBox(10);
+        Label label1 = new Label("Game is over!");
+        Label label2 = new Label(winner + " the winner.");
+        label1.setFont(new Font("Calibri", 24));
+        label2.setFont(new Font("Calibri", 24));
+        windowVbox.getChildren().addAll(label1, label2);
+        windowVbox.setAlignment(Pos.CENTER);
+        Scene windowScene = new Scene(windowVbox, 300, 200);
+        window.setScene(windowScene);
+        window.show();
     }
 
     @Override
     public void start(final Stage primaryStage) {
+        int SCENE_HEIGHT = 720;
+        int SCENE_WIDTH = 1280;
         grid.setAlignment(Pos.CENTER_LEFT);
         grid.setPadding(new Insets(FIELD_SIZE));
         for (int n = 0; n < 22; n++)
@@ -112,31 +121,43 @@ public class GameMain extends Application {
         for (int n = 0; n < 10; n++)
             grid.getRowConstraints().add(new RowConstraints(FIELD_SIZE));
 
-        int SCENE_HEIGHT = 720;
-        int SCENE_WIDTH = 1280;
-
-        Button endGame = new Button("Koniec gry");
-        endGame.setOnAction((event) -> {
+        final Button endGameBtn = new Button("Koniec gry");
+        endGameBtn.setOnAction((event) -> {
             System.exit(0);
         });
 
-        final Button restartGame = new Button("Nowa gra");
-        restartGame.setOnAction((event -> {
-                    primaryStage.close();
-                    Platform.runLater(() -> new GameMain().start(new Stage()));
-                }));
+        final Button restartGameBtn = new Button("Nowa gra");
+        restartGameBtn.setOnAction((event -> {
+            primaryStage.close();
+            Platform.runLater(() -> new GameMain().start(new Stage()));
+        }));
 
-        grid.add(endGame, 30, 3);
-        grid.add(restartGame, 30, 5);
+        grid.add(endGameBtn, 30, 3);
+        grid.add(restartGameBtn, 30, 5);
+
+        Label label1 = new Label("Your board");
+        grid.add(label1, 4,15);
+
+        Label label2 = new Label("Your oponent board");
+        grid.add(label2, 15,15);
+
 
         Scene scene = new Scene(grid, SCENE_WIDTH, SCENE_HEIGHT);
         primaryStage.setTitle("BattleShip Game");
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        newGame();
+        gamePlay();
+    }
+
+    private void gamePlay() {
+        player.initBoard();
+        enemy.initBoard();
+        playerBoard();
+        enemyBoard();
         playerTurn();
     }
+
 
     public static void main(String[] args) {
         launch(args);
