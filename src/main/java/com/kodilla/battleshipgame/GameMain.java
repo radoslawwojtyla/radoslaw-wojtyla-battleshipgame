@@ -8,22 +8,33 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.util.Stack;
 
 
 public class GameMain extends Application {
 
+
     GridPane grid = new GridPane();
+    GridPane grid2 = new GridPane();
+
     int FIELD_SIZE = 30;
     Board player = new Board();
     Board enemy = new Board();
     private int offsetX = 11;
+    private int offsetY = 0;
+
+    StackPane stack = new StackPane();
 
     public void playerBoard() {
         for (int i = 0; i < 10; i++) {
@@ -113,7 +124,7 @@ public class GameMain extends Application {
     @Override
     public void start(final Stage primaryStage) {
         int SCENE_HEIGHT = 720;
-        int SCENE_WIDTH = 1280;
+        int SCENE_WIDTH = 800;
         grid.setAlignment(Pos.CENTER_LEFT);
         grid.setPadding(new Insets(FIELD_SIZE));
         for (int n = 0; n < 22; n++)
@@ -135,12 +146,11 @@ public class GameMain extends Application {
         grid.add(endGameBtn, 30, 3);
         grid.add(restartGameBtn, 30, 5);
 
-        Label label1 = new Label("Your board");
-        grid.add(label1, 4,15);
+        Text text1 = new Text("Your board");
+        Text text2 = new Text("Your opponent board");
 
-        Label label2 = new Label("Your oponent board");
-        grid.add(label2, 15,15);
-
+        grid.add(text1, 4,12);
+        grid.add(text2, 14,12);
 
         Scene scene = new Scene(grid, SCENE_WIDTH, SCENE_HEIGHT);
         primaryStage.setTitle("BattleShip Game");
@@ -157,6 +167,9 @@ public class GameMain extends Application {
         enemyBoard();
         playerTurn();
     }
+
+
+
 
 
     public static void main(String[] args) {
